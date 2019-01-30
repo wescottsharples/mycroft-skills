@@ -1,0 +1,37 @@
+# mark 2 specific
+mycroft-mark-2
+
+# GUI skills
+mycroft-weather
+mycroft-date-time
+mycroft-playback-control
+
+# core
+mycroft-pairing
+mycroft-configuration
+mycroft-installer
+mycroft-stop
+mycroft-naptime
+mycroft-speak
+mycroft-volume
+
+# common
+fallback-query
+mycroft-fallback-duck-duck-go
+fallback-wolfram-alpha
+fallback-unknown
+mycroft-alarm
+mycroft-audio-record
+mycroft-hello-world
+mycroft-ip
+mycroft-joke
+mycroft-npr-news
+mycroft-personal
+mycroft-reminder
+mycroft-singing
+mycroft-spelling
+mycroft-stock
+mycroft-support-helper
+mycroft-timer
+mycroft-wiki
+mycroft-version-checker
