@@ -2,6 +2,8 @@
 """Util contains helper functions for the init."""
 import os
 import json
+from datetime import timedelta
+from datetime import datetime
 
 
 def read_data():
@@ -74,3 +76,40 @@ def set_max_projects():
     else:
         newdata = {"max_projects": newmax}
         update_data(newdata)
+
+def convert_time(seconds=None):
+    """Converts the seconds format to proper readable time."""
+    sec = timedelta(seconds=int(seconds))
+    d = datetime(1, 1, 1) + sec
+    days = d.day - 1
+    hrs = d.hour
+    minutes = d.minute
+    secs = d.second
+    # TODO change this logic into speech logic
+    if days == 0 and hrs == 0:
+        return "MINS: {}: {}".format(minutes, secs)
+    elif days == 0:
+        return "HRS: {} | MINS: {}:{}".format(hrs, minutes, secs)
+    else:
+        if minutes > 30:
+            hrs += 1
+        return "D: {} | HRS: {}".format(days, hrs)
+
+def get_project(user_input=None):
+    """Checks if the user_input is within project list
+
+    Args:
+        user_input (str): Project name that the user says.
+
+    Returns:
+        project_name (str): The name of the project that the user wants
+            to track.
+    """
+    project_name = None
+    # TODO Loop through user_input until it finds a project
+    data = read_data()
+    keys = list(data)
+    for i in keys:
+        if "list_p" in i:
+            if data[i][0] == user_input:
+                return user_input
