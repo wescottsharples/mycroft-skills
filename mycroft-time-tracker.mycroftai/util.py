@@ -15,7 +15,7 @@ def read_data():
 
     return data
 
-def write_data(newdata=None):
+def update_data(newdata=None):
     """Updates current data and writes to projects.json.
 
     This function will update all key to new values in current projects.json.
@@ -32,7 +32,21 @@ def write_data(newdata=None):
 
     with open("projects.json", "w") as wf:
         json.dump(data, wf)
-        
+
+def write_data(newdata=None):
+    """Creates new key in current projects.json and writes it.
+
+    Args:
+        newdata (dict): New data to write to projects.json.
+    """
+    data = read_data()
+    newkeys = list(newdata)
+    for i in newkeys:
+        data[i] = newdata[i]
+
+    with open("projects.json", "w") as wf:
+        json.dump(data, wf)
+    
 def data_checker():
     """Checks if projects data exists (projects.json). If it does not exist,
     creates a template of the project data.
@@ -59,4 +73,4 @@ def set_max_projects():
         pass
     else:
         newdata = {"max_projects": newmax}
-        write_data(newdata)
+        update_data(newdata)
