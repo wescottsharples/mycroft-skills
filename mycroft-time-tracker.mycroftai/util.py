@@ -15,15 +15,15 @@ def read_data():
 
     return data
 
-def write_data(data=None, newdata=None):
+def write_data(newdata=None):
     """Updates current data and writes to projects.json.
 
     This function will update all key to new values in current projects.json.
 
     Args:
-        data (dict): Current projects.json data.
         newdata (dict): New data to update to projects.json.
     """
+    data = read_data()
     newkeys = list(newdata)
     for k in data.keys():
         for i in newkeys:
@@ -45,3 +45,18 @@ def data_checker():
         template = {"current_project": "None", "max_projects": "0"}
         with open("projects.json", "w") as wf:
             json.dump(template, wf)
+
+def set_max_projects():
+    """Calculates the new max_projects data, and updates to a new value
+    if it has changed.
+    """
+    data_checker()
+    data = read_data()
+    keycount = list(data)
+    newmax = keycount - 2
+    newmax = str(newmax)
+    if newmax == data["max_projects"]:
+        pass
+    else:
+        newdata = {"max_projects": newmax}
+        write_data(newdata)
