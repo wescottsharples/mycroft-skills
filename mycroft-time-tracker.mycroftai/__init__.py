@@ -17,6 +17,7 @@
 
 import os
 import util
+import time
 from adapt.intent import IntentBuilder
 
 from mycroft.skills.core import MycroftSkill
@@ -30,6 +31,9 @@ LOGGER = getLogger(__name__)
 class TimeTrackerSkill(MycroftSkill):
     def __init__(self):
         super(TimeTrackerSkill, self).__init__(name="TimeTrackerSkill")
+        self.project = util.get_project()
+        self.s_time = 0
+        self.total_time = 0
 
     def initialize(self):
         list_projects_intent = IntentBuilder("ListProjectsIntent"). \
@@ -49,19 +53,37 @@ class TimeTrackerSkill(MycroftSkill):
                              self.handle_stop_projects_intent)
 
     def handle_list_projects_intent(self, message):
+        util.data_checker()
+        data = util.read_data()
         self.speak_dialog("list.projects")
 
     def handle_create_projects_intent(self, message):
         util.data_checker()
+        util.set_max_projects()
+        data = util.read_data()
+        proj_num = int(data["max_projects"]) + 1
+        proj_val = [self.project, "0", {}]
+        proj_key = "list_project_{}".format(str(proj_num))
+        proj_data = {proj_key: proj_val}
+        util.write_data(proj_data)
         self.speak_dialog("create.projects")
 
     def handle_delete_projects_intent(self, message):
+        util.data_checker()
+        data = util.read_data()
+        proj_name = #TODO insert user input here
+        del data[proj_name]
+        util.update_data(data)
         self.speak_dialog("delete.projects")
 
     def handle_start_projects_intent(self, message):
+        util.data_checker()
+        self.s_time = time.time()
         self.speak_dialog("start.projects")
 
     def handle_stop_projects_intent(self, message):
+        util.data_checker()
+        self.total_time = time.time() - self.s_time
         self.speak_dialog("stop.projects")
 
     def stop(self):
