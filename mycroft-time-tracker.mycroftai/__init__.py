@@ -36,7 +36,17 @@ class TimeTrackerSkill(MycroftSkill):
             require("ListProjectsKeyword").build()
         create_projects_intent = IntentBuilder("CreateProjectsIntent"). \
             require("CreateProjectsKeyword").build()
-        self.register_intent(create_projects_intent, self.handle_create_projects_intent)
+        delete_projects_intent = IntentBuilder("DeleteProjectsIntent"). \
+            require("DeleteProjectsKeyword").build()
+        start_projects_intent = IntentBuilder("StartProjectsIntent"). \
+            require("StartProjectsKeyword").build()
+        stop_projects_intent = IntentBuilder("StopProjectsIntent"). \
+            require("StopProjectsKeyword").build()
+        self.register_intent(create_projects_intent, self.handle_list_projects_intent,
+                             self.handle_create_projects_intent,
+                             self.handle_delete_projects_intent,
+                             self.handle_start_projects_intent,
+                             self.handle_stop_projects_intent)
 
     def handle_list_projects_intent(self, message):
         self.speak_dialog("list.projects")
@@ -44,6 +54,15 @@ class TimeTrackerSkill(MycroftSkill):
     def handle_create_projects_intent(self, message):
         util.data_checker()
         self.speak_dialog("create.projects")
+
+    def handle_delete_projects_intent(self, message):
+        self.speak_dialog("delete.projects")
+
+    def handle_start_projects_intent(self, message):
+        self.speak_dialog("start.projects")
+
+    def handle_stop_projects_intent(self, message):
+        self.speak_dialog("stop.projects")
 
     def stop(self):
         pass
