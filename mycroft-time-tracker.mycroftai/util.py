@@ -112,4 +112,4 @@ def get_project(user_input=None):
     for i in keys:
         if "list_p" in i:
             if data[i][0] == user_input:
-                return user_input
+                return i

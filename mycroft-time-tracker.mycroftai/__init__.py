@@ -33,6 +33,9 @@ class TimeTrackerSkill(MycroftSkill):
         super(TimeTrackerSkill, self).__init__(name="TimeTrackerSkill")
         self.project = util.get_project()
         self.s_time = 0
+        # curr_total is a current start-stop total time (start-stop only)
+        self.curr_total = 0
+        # total_time is a current project total time (start-stop + start-stop)
         self.total_time = 0
 
     def initialize(self):
@@ -62,7 +65,7 @@ class TimeTrackerSkill(MycroftSkill):
         util.set_max_projects()
         data = util.read_data()
         proj_num = int(data["max_projects"]) + 1
-        proj_val = [self.project, "0", {}]
+        proj_val = [data[self.project][0], "0", {}]
         proj_key = "list_project_{}".format(str(proj_num))
         proj_data = {proj_key: proj_val}
         util.write_data(proj_data)
@@ -83,7 +86,17 @@ class TimeTrackerSkill(MycroftSkill):
 
     def handle_stop_projects_intent(self, message):
         util.data_checker()
-        self.total_time = time.time() - self.s_time
+        data = util.read_data()
+        self.curr_total = time.time() - self.s_time
+        # Transferring current start-stop total time session to project session
+        self.total_time += self.curr_total
+        if str(data[self.project][1]) != "0":
+            tempnum = float(data[self.project][1])
+            tempnum += self.curr_total
+            data[self.project][1] = str(tempnum)
+        else:
+            data[self.project][1] = str(self.total_time)
+        util.update_data(data)
         self.speak_dialog("stop.projects")
 
     def stop(self):
