@@ -41,19 +41,23 @@ class TimeTrackerSkill(MycroftSkill):
     def initialize(self):
         list_projects_intent = IntentBuilder("ListProjectsIntent"). \
             require("ListProjectsKeyword").build()
+        self.register_intent(list_projects_intent, self.handle_list_projects_intent)
+
         create_projects_intent = IntentBuilder("CreateProjectsIntent"). \
             require("CreateProjectsKeyword").build()
+        self.register_intent(create_projects_intent, self.handle_create_projects_intent)
+
         delete_projects_intent = IntentBuilder("DeleteProjectsIntent"). \
             require("DeleteProjectsKeyword").build()
+        self.register_intent(delete_projects_intent, self.handle_delete_projects_intent)
+
         start_projects_intent = IntentBuilder("StartProjectsIntent"). \
             require("StartProjectsKeyword").build()
+        self.register_intent(start_projects_intent, self.handle_start_projects_intent)
+
         stop_projects_intent = IntentBuilder("StopProjectsIntent"). \
             require("StopProjectsKeyword").build()
-        self.register_intent(create_projects_intent, self.handle_list_projects_intent,
-                             self.handle_create_projects_intent,
-                             self.handle_delete_projects_intent,
-                             self.handle_start_projects_intent,
-                             self.handle_stop_projects_intent)
+        self.register_intent(stop_projects_intent, self.handle_stop_projects_intent)
 
     def handle_list_projects_intent(self, message):
         util.data_checker()
