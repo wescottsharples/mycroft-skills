@@ -85,15 +85,9 @@ def convert_time(seconds=None):
     hrs = d.hour
     minutes = d.minute
     secs = d.second
-    # TODO change this logic into speech logic
-    if days == 0 and hrs == 0:
-        return "MINS: {}: {}".format(minutes, secs)
-    elif days == 0:
-        return "HRS: {} | MINS: {}:{}".format(hrs, minutes, secs)
-    else:
-        if minutes > 30:
-            hrs += 1
-        return "D: {} | HRS: {}".format(days, hrs)
+    time_list = [days, hrs, minutes, secs]
+    # TODO this list should be used to display any time format of a proj
+    return time_list
 
 def get_project(user_input=None):
     """Checks if the user_input is within project list
