@@ -58,6 +58,12 @@ class TimeTrackerSkill(MycroftSkill):
     def handle_list_projects_intent(self, message):
         util.data_checker()
         data = util.read_data()
+        keys = list(data)
+        project_list = []
+        for k in keys:
+            if "list_p" in k:
+                project_list.append(data[k][0])
+        # project_list contains projects for mycroft to say
         self.speak_dialog("list.projects")
 
     def handle_create_projects_intent(self, message):
@@ -75,6 +81,7 @@ class TimeTrackerSkill(MycroftSkill):
         util.data_checker()
         data = util.read_data()
         proj_name = #TODO insert user input here
+        name = get_project()
         del data[proj_name]
         util.update_data(data)
         self.speak_dialog("delete.projects")
